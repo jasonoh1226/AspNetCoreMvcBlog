@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
+using AspNetCoreMvcBlog.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace AspNetCoreMvcBlog
 {
     public class Startup
@@ -24,6 +28,12 @@ namespace AspNetCoreMvcBlog
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<DataContext>(options => {
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
